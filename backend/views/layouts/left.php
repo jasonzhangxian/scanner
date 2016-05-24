@@ -26,61 +26,34 @@
         </form>
         <!-- /.search form -->
 
-        <?= dmstr\widgets\Menu::widget(
-            [
-                'options' => ['class' => 'sidebar-menu'],
-                'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    [
-                        'label' => 'Same tools',
-                        'icon' => 'fa fa-share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'fa fa-circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'fa fa-circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'fa fa-circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'fa fa-circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'fa fa-circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-        ) ?>
-        <ul class="sidebar-menu">            
-            <li class="treeview">               
-                <a href="#">                    
-                    <i class="fa fa-gears"></i> <span>权限控制</span>                    
-                    <i class="fa fa-angle-left pull-right"></i>               
-                </a>               
-                <ul class="treeview-menu">                                    
-                    <li><a href="/backend/web/admin/user"><i class="fa fa-circle-o"></i> 后台用户</a></li>                            
-                                                   
-                    <li><a href="/backend/web/admin/route"><i class="fa fa-circle-o"></i> 路由</a></li>                                    
-                    <li><a href="/backend/web/admin/permission"><i class="fa fa-circle-o"></i> 权限</a></li>                                    
-                    <li><a href="/backend/web/admin/role"><i class="fa fa-circle-o"></i> 角色</a></li>                                    
-                    <li><a href="/backend/web/admin/assignment"><i class="fa fa-circle-o"></i> 分配</a></li>                                    
-                    <li><a href="/backend/web/admin/menu"><i class="fa fa-circle-o"></i> 菜单</a></li>                                  
-                    <li><a href="/backend/web/admin/rule"><i class="fa fa-circle-o"></i> 规则</a></li>                  
-                </ul>            
-            </li>        
-        </ul>
+        <? use mdm\admin\components\MenuHelper; 
+        $callback = function($menu){ 
+    $data = json_decode($menu['data'], true); 
+    $items = $menu['children']; 
+    $return = [ 
+        'label' => $menu['name'], 
+        'url' => [$menu['route']], 
+    ]; 
+    //处理我们的配置 
+    if ($data) { 
+        //visible 
+        isset($data['visible']) && $return['visible'] = $data['visible']; 
+        //icon 
+        isset($data['icon']) && $data['icon'] && $return['icon'] = $data['icon']; 
+        //other attribute e.g. class... 
+        $return['options'] = $data; 
+    } 
+    //没配置图标的显示默认图标 
+    (!isset($return['icon']) || !$return['icon']) && $return['icon'] = 'fa fa-circle-o'; 
+    $items && $return['items'] = $items; 
+    return $return; 
+}; 
+            echo dmstr\widgets\Menu::widget( [
+                 'options' => ['class' => 'sidebar-menu'], 
+                'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback), 
+            ] );
+        ?>
+
     </section>
 
 </aside>

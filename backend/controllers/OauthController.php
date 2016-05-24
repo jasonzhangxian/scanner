@@ -7,6 +7,8 @@ use yii\filters\AccessControl;
 use app\models\OauthTaobao;
 use app\models\Shop;
 use yii\data\ActiveDataProvider;
+use frontend\models\SignupForm;
+use common\models\LoginForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -119,6 +121,34 @@ class OauthController extends Controller
                         echo "";
                     }
                     //执行登录
+                    //判读是否设置了用户，否->创建用户，是->执行登录
+                    $model = new LoginForm();
+                    $login_data = ['LoginForm'=>
+                                    [
+                                        'username' => $response['taobao_user_nick'],
+                                        'password' => $response['taobao_user_id']
+                                    ]
+                                    ];
+                    if ($model->load($login_data) && $model->login()) {
+                        return $this->goHome();
+                    } else {
+                        $model = new SignupForm();
+                        $signup_data = ['SignupForm'=>
+                                        [
+                                            'username' => $response['taobao_user_nick'],
+                                            'email' => $response['taobao_user_id'].'@taobao.com',
+                                            'password' => $response['taobao_user_id']
+                                        ]
+                                        ];
+                        if ($model->load($signup_data)) {
+                            if ($user = $model->signup()) {
+                                if (Yii::$app->getUser()->login($user)) {
+                                    return $this->goHome();
+                                }
+                            }
+                        }
+                    }
+                        
                 }
                 else
                 {
