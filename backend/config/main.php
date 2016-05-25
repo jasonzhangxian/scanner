@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'language' => 'zh-CN',
     'modules' => [
         "admin" => [        
             "class" => "mdm\admin\Module",   
@@ -22,6 +23,16 @@ return [
     'aliases' => [
         "@mdm/admin" => "@vendor/mdmsoft/yii2-admin",
         // for example: '@mdm/admin' => '@app/extensions/mdm/yii2-admin-2.0.0',
+    ],
+    'as access' => [
+       //ACF肯定是要加的，因为粗心导致该配置漏掉了，很是抱歉
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            //这里是允许访问的action
+            //controller/action
+            'oauth/authorize',
+            'site/*',
+        ]
     ],
     'components' => [
         "authManager" => [        

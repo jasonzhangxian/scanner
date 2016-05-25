@@ -52,7 +52,7 @@ class OauthController extends Controller
     {
         $request = Yii::$app->request;
         $session = Yii::$app->session;
-        //$this->layout = FALSE;
+        $this->layout = FALSE;
 
         $code = $request->get('code'); 
         $state = $request->get('state'); 
