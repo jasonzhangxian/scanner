@@ -76,7 +76,8 @@
 			{
 				foreach ($params as $method => $param)
 				{
-					$this->{'set'.ucfirst($method)}($param);
+					$method = implode("",array_map('ucfirst',explode('_', $method)));
+					$this->{'set'.$method}($param);
 				}
 			}
 			return TRUE;
