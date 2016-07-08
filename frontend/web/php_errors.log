@@ -1,0 +1,6 @@
+[07-Jul-2016 16:13:34 PRC] PHP Fatal error:  Class 'yii\app\Controller' not found in E:\MyWorkSpaces\scanner\frontend\controllers\IndexController.php on line 6
+[07-Jul-2016 17:22:41 PRC] PHP Fatal error:  Class 'app\models\Items' not found in E:\MyWorkSpaces\scanner\frontend\controllers\IndexController.php on line 30
+[08-Jul-2016 10:34:08 PRC] PHP Fatal error:  Class 'frontend\controllers\Yii' not found in E:\MyWorkSpaces\scanner\frontend\controllers\IndexController.php on line 41
+[08-Jul-2016 11:03:43 PRC] PHP Fatal error:  Class 'frontend\controllers\VerbFilter' not found in E:\MyWorkSpaces\scanner\frontend\controllers\IndexController.php on line 19
+[08-Jul-2016 14:08:26 PRC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in E:\MyWorkSpaces\scanner\common\extensions\WordSeparator.php on line 178
+[08-Jul-2016 14:11:26 PRC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in E:\MyWorkSpaces\scanner\common\extensions\WordSeparator.php on line 120
